@@ -52,7 +52,7 @@ El objetivo es recrear una imagen original con estilo artístico utilizando prog
 ## 🌐 GitHub Pages
 
 🔗 Enlace al sitio publicado:  
-**https://TU-USUARIO.github.io/examen-api-canvas**
+**https://github.com/JaquelineHernandez24/examen-api-canvas**
 
 *(Reemplazar por tu URL real)*
 
