@@ -139,21 +139,61 @@ function drawBush(x) {
     }
 }
 
-/* =========================
-   ÁRBOL
-========================= */
-
 function drawTree() {
 
-    ctx.fillStyle = "#6b3e1d";
-    ctx.fillRect(470, 200, 30, 100);
+    /* ======================
+       TRONCO 3D
+    ====================== */
 
-    for (let i = 0; i < 8; i++) {
-        ctx.fillStyle = "#4d7a1a";
-        ctx.beginPath();
-        ctx.arc(485 + Math.random()*50 -25, 170 + Math.random()*50 -25, 30, 0, Math.PI*2);
-        ctx.fill();
-    }
+    let trunkGradient = ctx.createLinearGradient(470, 200, 500, 200);
+    trunkGradient.addColorStop(0, "#3b1f0d");  // sombra izquierda
+    trunkGradient.addColorStop(0.5, "#6b3e1d");
+    trunkGradient.addColorStop(1, "#a06a3b");  // luz derecha
+
+    ctx.fillStyle = trunkGradient;
+    ctx.fillRect(470, 200, 35, 120);
+
+    // Línea oscura central para profundidad
+    ctx.strokeStyle = "rgba(0,0,0,0.3)";
+    ctx.beginPath();
+    ctx.moveTo(487, 200);
+    ctx.lineTo(487, 320);
+    ctx.stroke();
+
+
+    /* ======================
+       COPA DEL ÁRBOL (BOLAS)
+    ====================== */
+
+    // Color base oscuro
+    ctx.fillStyle = "#2f6e1f";
+
+    ctx.beginPath(); ctx.arc(470, 180, 45, 0, Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.arc(520, 170, 50, 0, Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.arc(500, 140, 45, 0, Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.arc(550, 190, 40, 0, Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.arc(450, 210, 40, 0, Math.PI*2); ctx.fill();
+
+
+    /* ======================
+       LUZ (parte superior derecha)
+    ====================== */
+
+    ctx.fillStyle = "rgba(144, 238, 144, 0.8)";
+
+    ctx.beginPath(); ctx.arc(520, 150, 25, 0, Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.arc(545, 175, 20, 0, Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.arc(490, 130, 20, 0, Math.PI*2); ctx.fill();
+
+
+    /* ======================
+       SOMBRA (parte inferior izquierda)
+    ====================== */
+
+    ctx.fillStyle = "rgba(0, 50, 0, 0.6)";
+
+    ctx.beginPath(); ctx.arc(450, 220, 25, 0, Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.arc(480, 230, 20, 0, Math.PI*2); ctx.fill();
 }
 
 /* =========================
@@ -241,21 +281,55 @@ function drawCat() {
     ctx.moveTo(270,210); ctx.lineTo(295,205);
     ctx.moveTo(270,220); ctx.lineTo(295,220);
     ctx.stroke();
+// 4 PATAS
 
-    // 4 PATAS
-    ctx.fillStyle = "#4da0ff";
-    ctx.fillRect(290, 310, 25, 60);
-    ctx.fillRect(330, 310, 25, 60);
-    ctx.fillRect(370, 310, 25, 60);
-    ctx.fillRect(410, 310, 25, 60);
+// =====================
+// PRIMER PAR (azules)
+// =====================
 
-    ctx.beginPath(); ctx.arc(302, 370, 12, 0, Math.PI*2); ctx.fill();
-    ctx.beginPath(); ctx.arc(342, 370, 12, 0, Math.PI*2); ctx.fill();
-    ctx.beginPath(); ctx.arc(382, 370, 12, 0, Math.PI*2); ctx.fill();
-    ctx.beginPath(); ctx.arc(422, 370, 12, 0, Math.PI*2); ctx.fill();
+// Pata 1
+ctx.fillStyle = "#4da0ff";
+ctx.fillRect(290, 310, 25, 60);
+
+ctx.fillStyle = "#2c6fb8"; // círculo más oscuro
+ctx.beginPath();
+ctx.arc(302, 370, 12, 0, Math.PI*2);
+ctx.fill();
+
+// Pata 2
+ctx.fillStyle = "#4da0ff";
+ctx.fillRect(330, 310, 25, 60);
+
+ctx.fillStyle = "#2c6fb8";
+ctx.beginPath();
+ctx.arc(342, 370, 12, 0, Math.PI*2);
+ctx.fill();
+
+
+// =====================
+// SEGUNDO PAR (naranja)
+// =====================
+
+// Pata 3
+ctx.fillStyle = "#F54927";
+ctx.fillRect(370, 310, 25, 60);
+
+ctx.fillStyle = "#b8321c"; // círculo más oscuro
+ctx.beginPath();
+ctx.arc(382, 370, 12, 0, Math.PI*2);
+ctx.fill();
+
+// Pata 4
+ctx.fillStyle = "#F54927";
+ctx.fillRect(410, 310, 25, 60);
+
+ctx.fillStyle = "#b8321c";
+ctx.beginPath();
+ctx.arc(422, 370, 12, 0, Math.PI*2);
+ctx.fill();
 
     // COLA SEGMENTADA
-    ctx.fillStyle = "#f4c542";
+    ctx.fillStyle = "#E0DC55";
     for (let i = 0; i < 6; i++) {
         ctx.beginPath();
         ctx.arc(430 + i*18, 230 - i*5, 12, 0, Math.PI*2);
