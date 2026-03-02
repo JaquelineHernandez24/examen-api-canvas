@@ -203,26 +203,73 @@ function drawTree() {
 function drawCat() {
 
     // CUERPO
-    let body = ctx.createLinearGradient(260, 220, 260, 300);
-    body.addColorStop(0, "#ff9d4e");
-    body.addColorStop(1, "#d66b1c");
-    ctx.fillStyle = body;
-    ctx.fillRect(260, 220, 170, 90);
+let body = ctx.createLinearGradient(260, 220, 260, 300);
+body.addColorStop(0, "#ff9d4e");
+body.addColorStop(1, "#d66b1c");
+ctx.fillStyle = body;
+ctx.fillRect(260, 220, 170, 90);
 
-    // DECORACIONES
-    ctx.fillStyle = "#8e44ad";
-    ctx.beginPath(); ctx.arc(300, 250, 15, 0, Math.PI*2); ctx.fill();
 
-    ctx.fillStyle = "#16a085";
-    ctx.fillRect(340, 240, 25, 25);
+/* =========================
+   DECORACIONES NUEVAS
+========================= */
 
-    ctx.fillStyle = "#c0392b";
-    ctx.beginPath();
-    ctx.moveTo(380, 265);
-    ctx.lineTo(400, 235);
-    ctx.lineTo(420, 265);
-    ctx.closePath();
-    ctx.fill();
+/* =========================
+   DECORACIONES ORDENADAS
+========================= */
+
+// FILA SUPERIOR
+
+// CÍRCULO
+ctx.fillStyle = "#8e44ad";
+ctx.beginPath();
+ctx.arc(295, 245, 12, 0, Math.PI*2);
+ctx.fill();
+
+// CUADRADO
+ctx.fillStyle = "#16a085";
+ctx.fillRect(325, 232, 24, 24);
+
+// TRIÁNGULO
+ctx.fillStyle = "#c0392b";
+ctx.beginPath();
+ctx.moveTo(370, 255);
+ctx.lineTo(390, 230);
+ctx.lineTo(410, 255);
+ctx.closePath();
+ctx.fill();
+
+
+// FILA INFERIOR
+
+// CÍRCULO 2
+ctx.fillStyle = "#3498db";
+ctx.beginPath();
+ctx.arc(305, 280, 10, 0, Math.PI*2);
+ctx.fill();
+
+// RECTÁNGULO
+ctx.fillStyle = "#2ecc71";
+ctx.fillRect(335, 270, 30, 15);
+
+// ROMBO
+ctx.fillStyle = "#1abc9c";
+ctx.beginPath();
+ctx.moveTo(380, 270);
+ctx.lineTo(395, 285);
+ctx.lineTo(380, 300);
+ctx.lineTo(365, 285);
+ctx.closePath();
+ctx.fill();
+
+
+// DETALLE EXTRA (centro decorativo)
+
+ctx.strokeStyle = "#2c3e50";
+ctx.lineWidth = 2;
+ctx.beginPath();
+ctx.arc(350, 260, 35, 0.5, 2.6);
+ctx.stroke();
 
     // CABEZA
     ctx.fillStyle = "#1c4b96";
