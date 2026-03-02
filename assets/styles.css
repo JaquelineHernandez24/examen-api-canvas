@@ -7,6 +7,8 @@ body {
 }
 
 canvas {
-    border: 2px solid #333;
-    background-color: #b9e9ff; /* cielo */
+    border: 2px solid #222;
+    background-color: #c9edff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px #0004;
 }

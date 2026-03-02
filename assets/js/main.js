@@ -1,40 +1,40 @@
 /**
  * Examen Tema 1 – Programación Gráfica
- * Aplicación: Canvas Art – Paisaje Completo + Gato Geométrico (Versión Mejorada)
- * Autor: [Tu Nombre]
+ * Canvas Art – Escena Cartoon Estilizada
+ * Autora: Jaqueline Hernández
  * Fecha: 2024
  * Descripción:
- *   Versión PRO con degradados avanzados, volumen, sombras, nubes suaves,
- *   casa con textura, árbol 3D, gato con volumen y fondo similar a la referencia.
+ *  Versión PRO con degradados visibles, figuras volumétricas,
+ *  sombras suaves y estilo parecido a la Imagen A pero cartoon.
  */
 
 const canvas = document.getElementById("myCanvas");
 const ctx = canvas.getContext("2d");
 
 /* ======================================================
-   UTILIDADES (MEJORADAS)
+   UTILIDADES
 ====================================================== */
 
-function gradient(x1, y1, x2, y2, colors) {
-    let g = ctx.createLinearGradient(x1, y1, x2, y2);
-    colors.forEach(c => g.addColorStop(c.stop, c.color));
+function grad(x1, y1, x2, y2, stops) {
+    const g = ctx.createLinearGradient(x1, y1, x2, y2);
+    stops.forEach(s => g.addColorStop(s.stop, s.color));
     return g;
 }
 
-function radial(x, y, r1, r2, colors) {
-    let g = ctx.createRadialGradient(x, y, r1, x, y, r2);
-    colors.forEach(c => g.addColorStop(c.stop, c.color));
+function radial(x, y, r1, r2, stops) {
+    const g = ctx.createRadialGradient(x, y, r1, x, y, r2);
+    stops.forEach(s => g.addColorStop(s.stop, s.color));
     return g;
 }
 
 function circle(x, y, r, fill, shadow=false) {
     if (shadow) {
-        ctx.shadowColor = "rgba(0,0,0,0.4)";
+        ctx.shadowColor = "rgba(0,0,0,0.35)";
         ctx.shadowBlur = 15;
     }
     ctx.beginPath();
     ctx.fillStyle = fill;
-    ctx.arc(x, y, r, 0, Math.PI * 2);
+    ctx.arc(x, y, r, 0, Math.PI*2);
     ctx.fill();
     ctx.shadowBlur = 0;
 }
@@ -42,143 +42,124 @@ function circle(x, y, r, fill, shadow=false) {
 function rect(x, y, w, h, fill, shadow=false) {
     if (shadow) {
         ctx.shadowColor = "rgba(0,0,0,0.4)";
-        ctx.shadowBlur = 10;
+        ctx.shadowBlur = 12;
     }
     ctx.fillStyle = fill;
     ctx.fillRect(x, y, w, h);
     ctx.shadowBlur = 0;
 }
 
-function triangle(x1, y1, x2, y2, x3, y3, fill) {
+function tri(x1, y1, x2, y2, x3, y3, fill) {
     ctx.beginPath();
     ctx.fillStyle = fill;
-    ctx.moveTo(x1, y1);
-    ctx.lineTo(x2, y2);
-    ctx.lineTo(x3, y3);
+    ctx.moveTo(x1,y1);
+    ctx.lineTo(x2,y2);
+    ctx.lineTo(x3,y3);
     ctx.closePath();
     ctx.fill();
 }
 
 /* ======================================================
-   FONDO (MUY REALISTA)
+   FONDO
 ====================================================== */
 
 function drawSky() {
-    ctx.fillStyle = gradient(0, 0, 0, canvas.height, [
-        { stop: 0, color: "#6ec7ff" },
-        { stop: 0.6, color: "#7fc8ff" },
-        { stop: 1, color: "#b7e3ff" }
+    ctx.fillStyle = grad(0,0,0,500,[
+        {stop:0, color:"#6bd0ff"},
+        {stop:0.6, color:"#8ad8ff"},
+        {stop:1, color:"#c4edff"}
     ]);
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillRect(0,0,600,500);
 }
 
 function drawGround() {
-    ctx.fillStyle = gradient(0, 350, 0, 600, [
-        { stop: 0, color: "#442a16" },
-        { stop: 0.5, color: "#5c371a" },
-        { stop: 1, color: "#3f240f" }
+    ctx.fillStyle = grad(0,350,0,500,[
+        {stop:0, color:"#5b3a22"},
+        {stop:1, color:"#382514"}
     ]);
-    ctx.fillRect(0, 380, 600, 220);
+    ctx.fillRect(0,360,600,200);
 
-    // textura como tierra
-    for (let i = 0; i < 160; i++) {
-        circle(
-            Math.random() * 600,
-            380 + Math.random() * 180,
-            Math.random() * 4,
-            "rgba(0,0,0,0.25)"
-        );
+    for (let i=0;i<100;i++){
+        circle(Math.random()*600, 360+Math.random()*140, Math.random()*3,
+            "rgba(0,0,0,0.25)");
     }
 }
 
 /* ======================================================
-   NUBES REALISTAS (DEGRADADO)
+   NUBES (cartoon suaves)
 ====================================================== */
 
-function drawCloud(x, y) {
-    let cloudColor = radial(x, y, 10, 60, [
-        { stop: 0, color: "white" },
-        { stop: 1, color: "rgba(255,255,255,0.6)" }
-    ]);
-
+function cloud(x,y) {
     const parts = [
-        [0, 0], [30, -15], [65, 0], [30, 20], [-20, 20]
+        [0,0], [35,-12], [65,5], [40,22], [-15,15]
     ];
-
-    parts.forEach(p => circle(x + p[0], y + p[1], 30, cloudColor));
+    parts.forEach(p=>{
+        circle(x+p[0], y+p[1], 30, 
+            radial(x+p[0], y+p[1], 5,35,[
+                {stop:0, color:"white"},
+                {stop:1, color:"rgba(255,255,255,0.6)"}
+            ])
+        );
+    });
 }
 
 /* ======================================================
-   SOL (MUY DETALLADO)
+   SOL (cartoon)
 ====================================================== */
 
 function drawSun() {
-    let glow = radial(480, 90, 10, 110, [
-        { stop: 0, color: "rgba(255,255,200,1)" },
-        { stop: 1, color: "rgba(255,210,80,0)" }
-    ]);
-
-    circle(480, 90, 110, glow);
-
-    circle(480, 90, 45, radial(480, 90, 5, 45, [
-        { stop: 0, color: "#fff7b1" },
-        { stop: 1, color: "#ffd233" }
-    ]));
-
-    for (let i = 0; i < 18; i++) {
-        let ang = i * (Math.PI * 2 / 18);
-        let x = 480 + Math.cos(ang) * 70;
-        let y = 90 + Math.sin(ang) * 70;
-        triangle(480, 90, x, y, x+6, y+6, "#ffcc22");
-    }
+    circle(500,80,65,
+        radial(500,80,10,65,[
+            {stop:0, color:"#fffab0"},
+            {stop:1, color:"#ffd843"}
+        ]),
+        true
+    );
 }
 
 /* ======================================================
-   CASA (VOLÚMEN + TECHO 3D)
+   CASA CARTOON
 ====================================================== */
 
 function drawHouse() {
     rect(
-        90, 245, 140, 140,
-        gradient(90, 245, 230, 385, [
-            { stop: 0, color: "#7db2ff" },
-            { stop: 1, color: "#4d83e3" }
+        90,260,150,120,
+        grad(90,260,250,380,[
+            {stop:0,color:"#80b6ff"},
+            {stop:1,color:"#4b76d4"}
         ]),
         true
     );
 
-    rect(110, 280, 40, 40, "#ffe47a");
-    rect(170, 280, 40, 40, "#ffe47a");
+    rect(115,295,40,40,"#ffef9c");
+    rect(175,295,40,40,"#ffef9c");
 
-    rect(140, 320, 40, 65, "#78451c");
+    rect(150,330,40,50,"#7d4d24", true);
 
-    triangle(70, 245, 160, 170, 250, 245,
-        gradient(70, 170, 250, 245, [
-            { stop: 0, color: "#e8533a" },
-            { stop: 1, color: "#b43724" }
+    tri(
+        75,260,165,190,255,260,
+        grad(75,200,255,260,[
+            {stop:0,color:"#ff6a3b"},
+            {stop:1,color:"#d44724"}
         ])
     );
 }
 
 /* ======================================================
-   ÁRBOL 3D
+   ÁRBOL
 ====================================================== */
 
 function drawTree() {
-    rect(420, 270, 35, 110, "#7a512a");
+    rect(420,280,35,110,"#7c542a");
 
     const leaves = [
-        [420, 230], [450, 240], [400, 245],
-        [430, 210], [460, 260], [390, 260],
-        [440, 280], [470, 240], [410, 220]
+        [420,240],[450,245],[395,250],[430,215],[465,265],[390,265]
     ];
-
-    leaves.forEach(l => {
-        circle(
-            l[0], l[1], 32,
-            radial(l[0], l[1], 5, 32, [
-                { stop: 0, color: "#7ccf72" },
-                { stop: 1, color: "#4c9d4a" }
+    leaves.forEach(l=>{
+        circle(l[0],l[1],30,
+            radial(l[0],l[1],5,30,[
+                {stop:0,color:"#8bf27b"},
+                {stop:1,color:"#56b759"}
             ]),
             true
         );
@@ -186,67 +167,75 @@ function drawTree() {
 }
 
 /* ======================================================
-   GATO 3D
+   GATO CARTOON (menos real, más bonito)
 ====================================================== */
 
 function drawCat() {
     rect(
-        240, 260, 140, 90,
-        gradient(240, 260, 380, 350, [
-            { stop: 0, color: "#ff9a35" },
-            { stop: 1, color: "#d86c12" }
+        250,270,130,80,
+        grad(250,270,380,350,[
+            {stop:0,color:"#ffa346"},
+            {stop:1,color:"#d6741a"}
         ]),
         true
     );
 
-    circle(230, 240, 38,
-        radial(230, 240, 5, 40, [
-            { stop: 0, color: "#7394ff" },
-            { stop: 1, color: "#4a63c9" }
+    circle(235,250,35,
+        radial(235,250,5,35,[
+            {stop:0,color:"#8fb2ff"},
+            {stop:1,color:"#5b79d7"}
         ]),
         true
     );
 
-    triangle(200, 220, 220, 200, 235, 230, "#ffe066");
-    triangle(240, 230, 260, 200, 275, 220, "#ffe066");
+    tri(210,230,230,210,245,240,"#ffe27d");
+    tri(240,240,260,210,275,230,"#ffe27d");
 
-    circle(215, 235, 7, "lime");
-    circle(245, 235, 7, "lime");
+    circle(225,245,6,"lime");
+    circle(248,245,6,"lime");
 
-    circle(230, 250, 5, "pink");
-
-    ctx.beginPath();
-    ctx.strokeStyle = "black";
-    ctx.lineWidth = 2;
-    ctx.arc(230, 255, 12, 0, Math.PI);
-    ctx.stroke();
+    circle(235,258,4,"pink");
 
     ctx.beginPath();
-    ctx.moveTo(200, 250); ctx.lineTo(175, 245);
-    ctx.moveTo(200, 255); ctx.lineTo(175, 255);
-    ctx.moveTo(200, 260); ctx.lineTo(175, 265);
-    ctx.moveTo(260, 250); ctx.lineTo(285, 245);
-    ctx.moveTo(260, 255); ctx.lineTo(285, 255);
-    ctx.moveTo(260, 260); ctx.lineTo(285, 265);
+    ctx.strokeStyle="black";
+    ctx.lineWidth=2;
+    ctx.arc(235,260,10,0,Math.PI);
     ctx.stroke();
 
-    rect(260, 350, 30, 60, "#567ce0", true);
-    rect(300, 350, 30, 60, "#567ce0", true);
-    rect(340, 350, 30, 60, "#d55e1b", true);
+    const whisk = [
+        [210,255,185,250],
+        [210,260,185,260],
+        [210,265,185,270],
 
-    circle(275, 410, 14, "#456ac2");
-    circle(315, 410, 14, "#456ac2");
-    circle(355, 410, 14, "#c44c13");
+        [260,255,285,250],
+        [260,260,285,260],
+        [260,265,285,270]
+    ];
 
-    let cx = 380;
-    for (let i = 0; i < 6; i++) {
-        circle(cx, 290, 18,
-            radial(cx, 290, 4, 18, [
-                { stop: 0, color: "#ffe386" },
-                { stop: 1, color: "#e9c75e" }
+    whisk.forEach(w=>{
+        ctx.beginPath();
+        ctx.moveTo(w[0],w[1]);
+        ctx.lineTo(w[2],w[3]);
+        ctx.stroke();
+    });
+
+    rect(265,350,25,55,"#6c8aff",true);
+    rect(305,350,25,55,"#6c8aff",true);
+    rect(345,350,25,55,"#d45c19",true);
+
+    circle(278,405,12,"#4f6fd0");
+    circle(318,405,12,"#4f6fd0");
+    circle(358,405,12,"#c44a14");
+
+    let x=380;
+    for(let i=0;i<5;i++){
+        circle(x,290,16,
+            radial(x,290,4,16,[
+                {stop:0,color:"#ffe48e"},
+                {stop:1,color:"#d7b45a"}
             ])
         );
-        cx += 22;
+        x+=20;
     }
 }
 
@@ -254,13 +243,13 @@ function drawCat() {
    DIBUJAR TODO
 ====================================================== */
 
-function drawScene() {
+function drawScene(){
     drawSky();
     drawGround();
 
-    drawCloud(90, 100);
-    drawCloud(200, 70);
-    drawCloud(330, 120);
+    cloud(90,90);
+    cloud(210,65);
+    cloud(330,110);
 
     drawSun();
     drawHouse();
