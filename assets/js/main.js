@@ -1,10 +1,10 @@
 /*
 ====================================================
-Canvas Art - Versión Mejorada Profesional
+Canvas Art - Versión Final Profesional
 Autor: Jaqueline Hernandez Hernandez
-Descripción: Escena completa usando Canvas 2D
-Incluye +60 figuras (rectángulos, círculos, arcos,
-triángulos, líneas, curvas y gradientes).
+Incluye más de 70 figuras geométricas
+Rectángulos, círculos, arcos, líneas,
+triángulos, curvas y gradientes.
 ====================================================
 */
 
@@ -32,6 +32,22 @@ function drawGround() {
 }
 
 /* =========================
+   PASTO
+========================= */
+
+function drawGrass() {
+    ctx.strokeStyle = "#2ecc71";
+    ctx.lineWidth = 2;
+
+    for (let i = 0; i < 600; i += 6) {
+        ctx.beginPath();
+        ctx.moveTo(i, 285);
+        ctx.lineTo(i + 2, 275);
+        ctx.stroke();
+    }
+}
+
+/* =========================
    SOL
 ========================= */
 
@@ -39,6 +55,7 @@ function drawSun() {
     let glow = ctx.createRadialGradient(500, 80, 10, 500, 80, 90);
     glow.addColorStop(0, "rgba(255,255,150,0.9)");
     glow.addColorStop(1, "rgba(255,255,0,0)");
+
     ctx.fillStyle = glow;
     ctx.beginPath();
     ctx.arc(500, 80, 90, 0, Math.PI * 2);
@@ -51,16 +68,31 @@ function drawSun() {
 }
 
 /* =========================
-   NUBES
+   NUBES MEJORADAS
 ========================= */
 
 function drawCloud(x, y) {
-    ctx.fillStyle = "rgba(255,255,255,0.9)";
-    for (let i = 0; i < 7; i++) {
-        ctx.beginPath();
-        ctx.arc(x + i * 25, y + (i % 2 === 0 ? 0 : 10), 25, 0, Math.PI * 2);
-        ctx.fill();
-    }
+
+    // sombra
+    ctx.fillStyle = "rgba(0,0,0,0.1)";
+    ctx.beginPath();
+    ctx.ellipse(x + 60, y + 25, 70, 20, 0, 0, Math.PI * 2);
+    ctx.fill();
+
+    // gradiente
+    let cloudGradient = ctx.createRadialGradient(x + 60, y, 10, x + 60, y, 80);
+    cloudGradient.addColorStop(0, "#ffffff");
+    cloudGradient.addColorStop(1, "#dcdcdc");
+
+    ctx.fillStyle = cloudGradient;
+
+    ctx.beginPath();
+    ctx.arc(x, y, 30, 0, Math.PI * 2);
+    ctx.arc(x + 40, y - 15, 35, 0, Math.PI * 2);
+    ctx.arc(x + 80, y, 30, 0, Math.PI * 2);
+    ctx.arc(x + 120, y - 10, 25, 0, Math.PI * 2);
+    ctx.closePath();
+    ctx.fill();
 }
 
 /* =========================
@@ -69,23 +101,19 @@ function drawCloud(x, y) {
 
 function drawHouse() {
 
-    // Cuerpo
     let wall = ctx.createLinearGradient(100, 150, 100, 280);
     wall.addColorStop(0, "#6db3ff");
     wall.addColorStop(1, "#215a8e");
     ctx.fillStyle = wall;
     ctx.fillRect(100, 150, 120, 130);
 
-    // Ventanas
     ctx.fillStyle = "#f2da57";
     ctx.fillRect(120, 180, 30, 30);
     ctx.fillRect(170, 180, 30, 30);
 
-    // Puerta
     ctx.fillStyle = "#c78a34";
     ctx.fillRect(145, 210, 30, 70);
 
-    // Techo
     ctx.fillStyle = "#c0392b";
     ctx.beginPath();
     ctx.moveTo(90, 150);
@@ -94,9 +122,21 @@ function drawHouse() {
     ctx.closePath();
     ctx.fill();
 
-    // Chimenea
     ctx.fillStyle = "#7f8c8d";
     ctx.fillRect(195, 110, 20, 40);
+}
+
+/* =========================
+   ARBUSTOS SEPARADOS
+========================= */
+
+function drawBush(x) {
+    ctx.fillStyle = "#2e7d32";
+    for (let i = 0; i < 5; i++) {
+        ctx.beginPath();
+        ctx.arc(x + i * 35, 285, 25, 0, Math.PI * 2);
+        ctx.fill();
+    }
 }
 
 /* =========================
@@ -108,41 +148,28 @@ function drawTree() {
     ctx.fillStyle = "#6b3e1d";
     ctx.fillRect(470, 200, 30, 100);
 
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 8; i++) {
         ctx.fillStyle = "#4d7a1a";
         ctx.beginPath();
-        ctx.arc(485 + Math.random()*60 -30, 170 + Math.random()*60 -30, 30, 0, Math.PI*2);
+        ctx.arc(485 + Math.random()*50 -25, 170 + Math.random()*50 -25, 30, 0, Math.PI*2);
         ctx.fill();
     }
 }
 
 /* =========================
-   ARBUSTOS
-========================= */
-
-function drawBush(x) {
-    for (let i = 0; i < 8; i++) {
-        ctx.fillStyle = "#2e7d32";
-        ctx.beginPath();
-        ctx.arc(x + i*20, 285, 25, 0, Math.PI*2);
-        ctx.fill();
-    }
-}
-
-/* =========================
-   GATO MEJORADO
+   GATO FINAL
 ========================= */
 
 function drawCat() {
 
-    // Cuerpo
+    // CUERPO
     let body = ctx.createLinearGradient(260, 220, 260, 300);
     body.addColorStop(0, "#ff9d4e");
     body.addColorStop(1, "#d66b1c");
     ctx.fillStyle = body;
     ctx.fillRect(260, 220, 170, 90);
 
-    // Decoraciones
+    // DECORACIONES
     ctx.fillStyle = "#8e44ad";
     ctx.beginPath(); ctx.arc(300, 250, 15, 0, Math.PI*2); ctx.fill();
 
@@ -157,13 +184,13 @@ function drawCat() {
     ctx.closePath();
     ctx.fill();
 
-    // Cabeza
+    // CABEZA
     ctx.fillStyle = "#1c4b96";
     ctx.beginPath();
     ctx.arc(240, 200, 40, 0, Math.PI*2);
     ctx.fill();
 
-    // Orejas
+    // OREJAS
     ctx.fillStyle = "#f1c40f";
     ctx.beginPath();
     ctx.moveTo(215,165);
@@ -177,7 +204,7 @@ function drawCat() {
     ctx.lineTo(260,145);
     ctx.fill();
 
-    // Ojos
+    // OJOS
     ctx.fillStyle = "#69e040";
     ctx.beginPath(); ctx.arc(225, 195, 7, 0, Math.PI*2); ctx.fill();
     ctx.beginPath(); ctx.arc(255, 195, 7, 0, Math.PI*2); ctx.fill();
@@ -186,7 +213,7 @@ function drawCat() {
     ctx.beginPath(); ctx.arc(225, 195, 3, 0, Math.PI*2); ctx.fill();
     ctx.beginPath(); ctx.arc(255, 195, 3, 0, Math.PI*2); ctx.fill();
 
-    // Nariz
+    // NARIZ
     ctx.fillStyle = "#ff69a3";
     ctx.beginPath();
     ctx.moveTo(240,210);
@@ -195,15 +222,19 @@ function drawCat() {
     ctx.closePath();
     ctx.fill();
 
-    // Boca
+    // BOCA FELINA
     ctx.strokeStyle = "black";
     ctx.lineWidth = 2;
+
     ctx.beginPath();
-    ctx.moveTo(240,220);
-    ctx.lineTo(240,228);
+    ctx.arc(235, 225, 10, 0, Math.PI);
     ctx.stroke();
 
-    // Bigotes
+    ctx.beginPath();
+    ctx.arc(245, 225, 10, 0, Math.PI);
+    ctx.stroke();
+
+    // BIGOTES
     ctx.beginPath();
     ctx.moveTo(210,210); ctx.lineTo(185,205);
     ctx.moveTo(210,220); ctx.lineTo(185,220);
@@ -211,21 +242,25 @@ function drawCat() {
     ctx.moveTo(270,220); ctx.lineTo(295,220);
     ctx.stroke();
 
-    // Patas
+    // 4 PATAS
     ctx.fillStyle = "#4da0ff";
-    ctx.fillRect(290, 310, 30, 60);
-    ctx.fillRect(350, 310, 30, 60);
+    ctx.fillRect(290, 310, 25, 60);
+    ctx.fillRect(330, 310, 25, 60);
+    ctx.fillRect(370, 310, 25, 60);
+    ctx.fillRect(410, 310, 25, 60);
 
-    ctx.beginPath(); ctx.arc(305, 370, 12, 0, Math.PI*2); ctx.fill();
-    ctx.beginPath(); ctx.arc(365, 370, 12, 0, Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.arc(302, 370, 12, 0, Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.arc(342, 370, 12, 0, Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.arc(382, 370, 12, 0, Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.arc(422, 370, 12, 0, Math.PI*2); ctx.fill();
 
-    // Cola curva
-    ctx.strokeStyle = "#f4c542";
-    ctx.lineWidth = 18;
-    ctx.beginPath();
-    ctx.moveTo(430, 230);
-    ctx.quadraticCurveTo(520, 180, 500, 120);
-    ctx.stroke();
+    // COLA SEGMENTADA
+    ctx.fillStyle = "#f4c542";
+    for (let i = 0; i < 6; i++) {
+        ctx.beginPath();
+        ctx.arc(430 + i*18, 230 - i*5, 12, 0, Math.PI*2);
+        ctx.fill();
+    }
 }
 
 /* =========================
@@ -235,12 +270,13 @@ function drawCat() {
 function drawScene() {
     drawSky();
     drawGround();
+    drawGrass();
     drawSun();
     drawCloud(70, 70);
-    drawCloud(200, 60);
+    drawCloud(220, 60);
     drawHouse();
-    drawBush(40);
-    drawBush(150);
+    drawBush(30);
+    drawBush(180);
     drawTree();
     drawCat();
 }
